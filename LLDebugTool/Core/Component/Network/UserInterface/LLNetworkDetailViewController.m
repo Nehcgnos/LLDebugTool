@@ -54,11 +54,17 @@ static NSString *const kNetworkImageCellID = @"NetworkImageCellID";
     [self.tableView registerClass:[LLNetworkImageCell class] forCellReuseIdentifier:kNetworkImageCellID];
     [self.tableView registerClass:[LLSubTitleTableViewCell class] forCellReuseIdentifier:kNetworkContentCellID];
     [self loadData];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"cURL" style:UIBarButtonItemStylePlain target:self action:@selector(copyCURL)];
 }
 
 #pragma mark - UITableViewDelegate, UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.contentArray.count;
+}
+
+- (void)copyCURL {
+    [UIPasteboard generalPasteboard].string = [self.model cURLDescription];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -170,6 +170,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSDate *_Nullable)dateDescription;
 
+- (NSString *)cURLDescription;
+
 @end
 
 NS_ASSUME_NONNULL_END

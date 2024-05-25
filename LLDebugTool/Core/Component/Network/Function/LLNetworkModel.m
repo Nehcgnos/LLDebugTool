@@ -219,4 +219,34 @@
     return [NSString stringWithFormat:@"%@ %@ %@\n", self.method, self.url.path, @"HTTP/1.1"];
 }
 
+- (NSString *)cURLDescription {
+//    if let requestBodyString = String(data: requestData, encoding: .utf8), requestBodyString.isEmpty == false {
+//        var escapedBody = requestBodyString.replacingOccurrences(of: "\\\"", with: "\\\\\"")
+//        escapedBody = escapedBody.replacingOccurrences(of: "\"", with: "\\\"")
+//
+//        components.append("-d \"\(escapedBody)\"")
+//    }
+//    return components.joined(separator: " \\\n")
+    NSString *url = self.url.absoluteString ?: @"<unknown url>";
+    NSString *prefix = [NSString stringWithFormat:@"curl \"%@\"", url];
+    NSMutableArray<NSString *> *components = [NSMutableArray arrayWithObject:prefix];
+    if (self.method && ![self.method isEqualToString:@"GET"]) {
+        [components addObject:[NSString stringWithFormat:@"-X %@", self.method]];
+    }
+    if (self.headerFields) {
+        for (NSString *key in self.headerFields) {
+            NSString *value = self.headerFields[key];
+            if (value) {
+                [components addObject:[NSString stringWithFormat:@"-H \"%@: %@\"", key, value]];
+            }
+        }
+    }
+    if (self.requestBody && [self.requestBody length] > 0) {
+        NSString *body = [self.requestBody stringByReplacingOccurrencesOfString:@"\\\"" withString:@"\\\\\""];
+        body = [body stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+        [components addObject:[NSString stringWithFormat:@"-d \"%@\"", body]];
+    }
+    return [components componentsJoinedByString:@" \\\n"];
+}
+
 @end

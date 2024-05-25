@@ -143,7 +143,12 @@ static NSString *const kCellID = @"cellID";
         failure:^(NSURLSessionDataTask *_Nullable task, NSError *_Nonnull error){
 
         }];
-
+    
+    [[NetTool shared].afHTTPSessionManager POST:@"https://www.baidu.com" parameters:@{@"key": @"value", @"key2": @"value2"} success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
     //NSURLSession
     NSMutableURLRequest *htmlRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://www.baidu.com"]];
     [htmlRequest setHTTPMethod:@"GET"];
